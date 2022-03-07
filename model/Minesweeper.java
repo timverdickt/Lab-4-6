@@ -1,11 +1,12 @@
 package model;
+import java.util.Random;
 
 public class Minesweeper extends AbstractMineSweeper {
 
     private int width;
     private int height;
     private int mines;
-    private Difficulty diff;
+    private AbstractTile[][] world;
 
     @Override
     public int getWidth() {
@@ -19,7 +20,56 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public void startNewGame(Difficulty level) {
-        diff = level;
+        if (level == Difficulty.EASY){
+            width = 8;
+            height = 8;
+            mines = 10;
+        }
+        else if (level == Difficulty.MEDIUM){
+            width = 16;
+            height = 16;
+            mines = 40;
+        }
+        else {
+            width = 30;
+            height = 16;
+            mines = 99;
+        }
+        generateWorld(height, width, mines);
+    }
+
+    public void generateWorld(int height, int width, int mines){
+        world = new Tile[width][height];
+        Random random = new Random();
+        int minesPlaced = 0;
+        while(minesPlaced<mines) {
+            for (AbstractTile[] i : world) {
+                for (AbstractTile j : i) {
+                    if (random.nextInt(3) == 1) {
+                        if (j == null && minesPlaced < mines) {
+                            j = generateExplosiveTile();
+                            minesPlaced++;
+                        }
+                    }
+                }
+            }
+        }
+        for (AbstractTile[] i: world){
+            for (AbstractTile j: i) {
+                if(j==null){
+                    j = generateEmptyTile();
+                }
+            }
+        }
+        int count = 0;
+        for (AbstractTile[] i: world) {
+            for (AbstractTile j: i) {
+                if(j==null){
+                    count++;
+                }
+            }
+        }
+        System.out.println(count);
     }
 
     @Override
@@ -66,11 +116,11 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public AbstractTile generateEmptyTile() {
-        return null;
+        return new Tile(false);
     }
 
     @Override
     public AbstractTile generateExplosiveTile() {
-        return null;
+        return new Tile(true);
     }
 }
