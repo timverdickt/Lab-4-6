@@ -39,7 +39,7 @@ public class Minesweeper extends AbstractMineSweeper {
     }
 
     public void generateWorld(int height, int width, int mines){
-        world = new Tile[width][height];
+        world = new AbstractTile[width][height];
         Random random = new Random();
         int minesPlaced = 0;
         while(minesPlaced<mines) {
@@ -81,11 +81,12 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public void toggleFlag(int x, int y) {
-
+        world[x][y].toggledFlag();
     }
 
     @Override
     public AbstractTile getTile(int x, int y) {
+
         return null;
     }
 
@@ -96,17 +97,17 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public void open(int x, int y) {
-
+        world[x][y].open();
     }
 
     @Override
     public void flag(int x, int y) {
-
+        world[x][y].flag();
     }
 
     @Override
     public void unflag(int x, int y) {
-
+        world[x][y].unflag();
     }
 
     @Override
@@ -116,11 +117,13 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public AbstractTile generateEmptyTile() {
+
         return new Tile(false);
     }
 
     @Override
     public AbstractTile generateExplosiveTile() {
+
         return new Tile(true);
     }
 }

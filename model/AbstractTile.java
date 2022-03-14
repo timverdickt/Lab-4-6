@@ -8,6 +8,7 @@ public abstract class AbstractTile implements TestableTile {
     public abstract boolean open();
     public abstract void flag();
     public abstract void unflag();
+    public abstract void toggledFlag();
     public abstract boolean isFlagged();
     public abstract boolean isOpened();
     public final void setTileNotifier(ITileStateNotifier notifier) {

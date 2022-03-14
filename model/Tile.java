@@ -13,8 +13,8 @@ public class Tile extends AbstractTile {
     }
 
     @Override
-    public boolean open() {
-        return opened;
+    public void open() {
+        opened = true;
     }
 
     @Override
@@ -25,6 +25,11 @@ public class Tile extends AbstractTile {
     @Override
     public void unflag() {
         flagged = false;
+    }
+
+    @Override
+    public void toggledFlag(){
+        flagged= !flagged;
     }
 
     @Override
