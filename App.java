@@ -19,6 +19,6 @@ public class App {
         model.setGameStateNotifier(view);
         view.setGameModel(model);
         model.startNewGame(Difficulty.EASY);
-        view.notifyNewGame(10,10);
+        view.notifyNewGame(25,25);
     }
 }

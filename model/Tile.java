@@ -13,8 +13,14 @@ public class Tile extends AbstractTile {
     }
 
     @Override
-    public void open() {
-        opened = true;
+    public boolean open() {
+        if (isOpened()) {
+            return false;
+        }
+        else{
+            opened=true;
+            return true;
+        }
     }
 
     @Override
