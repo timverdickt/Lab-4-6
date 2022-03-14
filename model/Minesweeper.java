@@ -2,7 +2,6 @@ package model;
 import java.util.Random;
 
 public class Minesweeper extends AbstractMineSweeper {
-
     private int width;
     private int height;
     private int mines;
@@ -43,11 +42,11 @@ public class Minesweeper extends AbstractMineSweeper {
         Random random = new Random();
         int minesPlaced = 0;
         while(minesPlaced<mines) {
-            for (AbstractTile[] i : world) {
-                for (AbstractTile j : i) {
+            for (int i=0 ; i<width;i++) {
+                for (int j=0 ; j<height;j++) {
                     if (random.nextInt(3) == 1) {
-                        if (j == null && minesPlaced < mines) {
-                            j = generateExplosiveTile();
+                        if (world[i][j] == null && minesPlaced < mines) {
+                            world[i][j]=generateExplosiveTile();
                             minesPlaced++;
                         }
                     }
