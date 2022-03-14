@@ -7,6 +7,8 @@ public class Minesweeper extends AbstractMineSweeper {
     private int mines;
     private AbstractTile[][] world;
 
+
+
     @Override
     public int getWidth() {
         return width;
@@ -68,7 +70,7 @@ public class Minesweeper extends AbstractMineSweeper {
         width = col;
         height = row;
         mines = explosionCount;
-        generateWorld(width,height,mines);
+        generateWorld(height,width,mines);
     }
 
     @Override
@@ -79,7 +81,7 @@ public class Minesweeper extends AbstractMineSweeper {
     @Override
     public AbstractTile getTile(int x, int y) {
 
-        return null;
+        return world[x][y];
     }
 
     @Override
