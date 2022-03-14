@@ -3,7 +3,7 @@ package test;
 import notifier.ITileStateNotifier;
 
 public interface TestableTile {
-    boolean open();
+    void open();
     void flag();
     void unflag();
     boolean isFlagged();

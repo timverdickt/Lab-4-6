@@ -53,22 +53,14 @@ public class Minesweeper extends AbstractMineSweeper {
                 }
             }
         }
-        for (AbstractTile[] i: world){
-            for (AbstractTile j: i) {
-                if(j==null){
-                    j = generateEmptyTile();
+        for (int i=0; i<width;i++){
+            for (int j=0;j< height;j++) {
+                if(world[i][j]==null){
+                    world[i][j] = generateEmptyTile();
                 }
             }
         }
-        int count = 0;
-        for (AbstractTile[] i: world) {
-            for (AbstractTile j: i) {
-                if(j==null){
-                    count++;
-                }
-            }
-        }
-        System.out.println(count);
+
     }
 
     @Override
@@ -76,6 +68,7 @@ public class Minesweeper extends AbstractMineSweeper {
         width = col;
         height = row;
         mines = explosionCount;
+        generateWorld(width,height,mines);
     }
 
     @Override
@@ -91,6 +84,7 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public void setWorld(AbstractTile[][] world) {
+        this.world=world;
 
     }
 
