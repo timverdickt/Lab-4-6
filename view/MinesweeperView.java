@@ -30,7 +30,7 @@ import notifier.IGameStateNotifier;
 
 public class MinesweeperView implements IGameStateNotifier {
     public static final int MAX_TIME = 1;//in minutes
-    public static final int TILE_SIZE = 50;
+    public static final int TILE_SIZE = 40;
     public static final class AssetPath {
         public static final String CLOCK_ICON = "./assets/icons/clock.png";
         public static final String FLAG_ICON = "./assets/icons/flag.png";
@@ -60,18 +60,21 @@ public class MinesweeperView implements IGameStateNotifier {
         this.easyGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null) 
                 gameModel.startNewGame(Difficulty.EASY);
+                notifyNewGame(gameModel.getWidth(),gameModel.getHeight());
         });
         this.mediumGame = new JMenuItem("Medium");
         this.gameMenu.add(this.mediumGame);
         this.mediumGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.MEDIUM);
+                notifyNewGame(gameModel.getWidth(),gameModel.getHeight());
         });
         this.hardGame = new JMenuItem("Hard");
         this.gameMenu.add(this.hardGame);
         this.hardGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.HARD);
+                notifyNewGame(gameModel.getWidth(),gameModel.getHeight());
         });
         
         this.window.setJMenuBar(this.menuBar);
@@ -113,7 +116,7 @@ public class MinesweeperView implements IGameStateNotifier {
         layoutConstraints.weightx = 1.0;
         layoutConstraints.weighty = 1.0;
         this.window.add(world, layoutConstraints);
-        this.window.setSize(500, 1);
+        this.window.setSize(500, 200);
         this.window.setVisible(true);
         this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
         try {

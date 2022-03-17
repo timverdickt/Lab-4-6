@@ -32,8 +32,8 @@ public class Minesweeper extends AbstractMineSweeper {
             mines = 40;
         }
         else {
-            width = 30;
-            height = 16;
+            width = 16;
+            height = 30;
             mines = 99;
         }
         generateWorld(height, width, mines);
