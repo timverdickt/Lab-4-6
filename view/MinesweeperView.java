@@ -49,6 +49,7 @@ public class MinesweeperView implements IGameStateNotifier {
     private JPanel flagPanel = new JPanel();
     private JLabel timerView = new JLabel();
     private JLabel flagCountView = new JLabel();
+    private JLabel minesOnMap = new JLabel();
 
     public MinesweeperView() {
         this.window = new JFrame("Minesweeper");
@@ -152,6 +153,7 @@ public class MinesweeperView implements IGameStateNotifier {
     @Override
     public void notifyNewGame(int row, int col) {
         this.flagCountView.setText("0");
+        this.minesOnMap.setText(String.valueOf(gameModel.getMines()));
         this.window.setSize(col * TILE_SIZE, row * TILE_SIZE + 30);
         this.world.removeAll();
 
@@ -170,16 +172,20 @@ public class MinesweeperView implements IGameStateNotifier {
                                 } else {
                                     gameModel.open(temp.getPositionX(), temp.getPositionY());
                                     notifyExploded(temp.getPositionX(), temp.getPositionY());
+                                    notifyGameLost();
                                 }
                             }
                         } else if (arg0.getButton() == MouseEvent.BUTTON3) {
-                            if (gameModel != null) {
+                            if (gameModel != null && !gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isOpened()) {
                                 if (gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isFlagged()) {
                                     gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
                                     notifyUnflagged(temp.getPositionX(), temp.getPositionY());
-                                } else {
+                                    notifyFlagCountChanged(gameModel.getFlags());
+                                } else if(gameModel.getFlags()!=Integer.parseInt(minesOnMap.getText())) {
                                     gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
                                     notifyFlagged(temp.getPositionX(), temp.getPositionY());
+                                    notifyFlagCountChanged(gameModel.getFlags());
+
                                 }
                             }
                         }

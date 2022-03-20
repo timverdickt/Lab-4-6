@@ -6,6 +6,7 @@ public class Minesweeper extends AbstractMineSweeper {
     private int height;
     private int mines;
     private AbstractTile[][] world;
+    private int flagsSet;
 
 
 
@@ -19,22 +20,29 @@ public class Minesweeper extends AbstractMineSweeper {
         return height;
     }
 
+    public int getMines(){
+        return mines;
+    }
+
     @Override
     public void startNewGame(Difficulty level) {
         if (level == Difficulty.EASY){
             width = 8;
             height = 8;
             mines = 10;
+            flagsSet = 0;
         }
         else if (level == Difficulty.MEDIUM){
             width = 16;
             height = 16;
             mines = 40;
+            flagsSet = 0;
         }
         else {
             width = 16;
             height = 30;
             mines = 99;
+            flagsSet = 0;
         }
         generateWorld(height, width, mines);
     }
@@ -44,15 +52,11 @@ public class Minesweeper extends AbstractMineSweeper {
         Random random = new Random();
         int minesPlaced = 0;
         while(minesPlaced<mines) {
-            for (int i=0 ; i<width;i++) {
-                for (int j=0 ; j<height;j++) {
-                    if (random.nextInt(3) == 1) {
-                        if (world[i][j] == null && minesPlaced < mines) {
-                            world[i][j]=generateExplosiveTile();
-                            minesPlaced++;
-                        }
-                    }
-                }
+            int nextX = random.nextInt(width);
+            int nextY = random.nextInt(height);
+            if(world[nextX][nextY] == null){
+                world[nextX][nextY] = generateExplosiveTile();
+                minesPlaced++;
             }
         }
         for (int i=0; i<width;i++){
@@ -92,11 +96,18 @@ public class Minesweeper extends AbstractMineSweeper {
         width = col;
         height = row;
         mines = explosionCount;
+        flagsSet = 0;
         generateWorld(height,width,mines);
     }
 
     @Override
     public void toggleFlag(int x, int y) {
+        if(world[x][y].isFlagged()){
+            flagsSet--;
+        }
+        else{
+            flagsSet++;
+        }
         world[x][y].toggledFlag();
     }
 
@@ -142,5 +153,9 @@ public class Minesweeper extends AbstractMineSweeper {
     public AbstractTile generateExplosiveTile() {
 
         return new Tile(true);
+    }
+
+    public int getFlags(){
+        return flagsSet;
     }
 }
