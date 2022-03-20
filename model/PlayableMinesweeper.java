@@ -5,7 +5,7 @@ import notifier.IGameStateNotifier;
 public interface PlayableMinesweeper {
     int getWidth();
     int getHeight();
-
+    AbstractTile getTile(int x, int y);
     void startNewGame(Difficulty level);
     void startNewGame(int row, int col, int explosionCount);
     void open(int x, int y);

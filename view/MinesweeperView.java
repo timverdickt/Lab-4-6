@@ -161,13 +161,22 @@ public class MinesweeperView implements IGameStateNotifier {
                     @Override
                     public void mousePressed(MouseEvent arg0) {
                         if (arg0.getButton() == MouseEvent.BUTTON1){
-                            if (gameModel!=null)
+                            if (gameModel!=null) {
                                 gameModel.open(temp.getPositionX(), temp.getPositionY());
+                            }
                         } 
                         else if (arg0.getButton() == MouseEvent.BUTTON3) {
-                            if (gameModel!=null)
-                                gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
-                        } 
+                            if (gameModel!=null){
+                                if(gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isFlagged()) {
+                                    gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
+                                    notifyUnflagged(temp.getPositionX(), temp.getPositionY());
+                                }
+                                else {
+                                    gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
+                                    notifyFlagged(temp.getPositionX(), temp.getPositionY());
+                                }
+                            }
+                        }
                     }
                 });
                 this.tiles[i][j] = temp;
