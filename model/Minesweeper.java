@@ -62,7 +62,29 @@ public class Minesweeper extends AbstractMineSweeper {
                 }
             }
         }
+        setNumbers();
+    }
 
+    public void setNumbers(){
+        for (int i=0 ; i<width;i++) {
+            for (int j = 0; j < height; j++) {
+                int count = 0;
+                if(!world[i][j].isExplosive()){
+                    try {
+                        for (int k = i - 1; k <= i + 1; k++) {
+                            for (int l = j - 1; l <= j + 1; l++) {
+                                if (world[k][l].isExplosive()) {
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+                    catch(Exception e){
+                    }
+                }
+                world[i][j].setExplosiveCount(count);
+            }
+        }
     }
 
     @Override

@@ -31,11 +31,13 @@ import notifier.IGameStateNotifier;
 public class MinesweeperView implements IGameStateNotifier {
     public static final int MAX_TIME = 1;//in minutes
     public static final int TILE_SIZE = 40;
+
     public static final class AssetPath {
         public static final String CLOCK_ICON = "./assets/icons/clock.png";
         public static final String FLAG_ICON = "./assets/icons/flag.png";
         public static final String BOMB_ICON = "./assets/icons/bomb.png";
     }
+
     private PlayableMinesweeper gameModel;
     private JFrame window;
     private JMenuBar menuBar;
@@ -54,29 +56,29 @@ public class MinesweeperView implements IGameStateNotifier {
         this.menuBar = new JMenuBar();
         this.gameMenu = new JMenu("New Game");
         this.menuBar.add(gameMenu);
-        
+
         this.easyGame = new JMenuItem("Easy");
         this.gameMenu.add(this.easyGame);
         this.easyGame.addActionListener((ActionEvent e) -> {
-            if (gameModel != null) 
+            if (gameModel != null)
                 gameModel.startNewGame(Difficulty.EASY);
-                notifyNewGame(gameModel.getWidth(),gameModel.getHeight());
+            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
         this.mediumGame = new JMenuItem("Medium");
         this.gameMenu.add(this.mediumGame);
         this.mediumGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.MEDIUM);
-                notifyNewGame(gameModel.getWidth(),gameModel.getHeight());
+            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
         this.hardGame = new JMenuItem("Hard");
         this.gameMenu.add(this.hardGame);
         this.hardGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.HARD);
-                notifyNewGame(gameModel.getWidth(),gameModel.getHeight());
+            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
-        
+
         this.window.setJMenuBar(this.menuBar);
 
         try {
@@ -118,7 +120,7 @@ public class MinesweeperView implements IGameStateNotifier {
         this.window.add(world, layoutConstraints);
         this.window.setSize(500, 200);
         this.window.setVisible(true);
-        this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e) {
@@ -152,26 +154,30 @@ public class MinesweeperView implements IGameStateNotifier {
         this.flagCountView.setText("0");
         this.window.setSize(col * TILE_SIZE, row * TILE_SIZE + 30);
         this.world.removeAll();
-        
+
         this.tiles = new TileView[row][col];
-        for (int i=0; i<row; ++i) {
-            for (int j=0; j<col; ++j) {
-                TileView temp = new TileView(j, i); 
+        for (int i = 0; i < row; ++i) {
+            for (int j = 0; j < col; ++j) {
+                TileView temp = new TileView(j, i);
                 temp.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent arg0) {
-                        if (arg0.getButton() == MouseEvent.BUTTON1){
-                            if (gameModel!=null) {
-                                gameModel.open(temp.getPositionX(), temp.getPositionY());
+                        if (arg0.getButton() == MouseEvent.BUTTON1) {
+                            if (gameModel != null) {
+                                if (!gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isExplosive()) {
+                                    gameModel.open(temp.getPositionX(), temp.getPositionY());
+                                    notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
+                                } else {
+                                    gameModel.open(temp.getPositionX(), temp.getPositionY());
+                                    notifyExploded(temp.getPositionX(), temp.getPositionY());
+                                }
                             }
-                        } 
-                        else if (arg0.getButton() == MouseEvent.BUTTON3) {
-                            if (gameModel!=null){
-                                if(gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isFlagged()) {
+                        } else if (arg0.getButton() == MouseEvent.BUTTON3) {
+                            if (gameModel != null) {
+                                if (gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isFlagged()) {
                                     gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
                                     notifyUnflagged(temp.getPositionX(), temp.getPositionY());
-                                }
-                                else {
+                                } else {
                                     gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
                                     notifyFlagged(temp.getPositionX(), temp.getPositionY());
                                 }
@@ -188,11 +194,13 @@ public class MinesweeperView implements IGameStateNotifier {
         this.world.setVisible(true);
         this.world.repaint();
     }
+
     @Override
     public void notifyGameLost() {
         this.removeAllTileEvents();
         //throw new UnsupportedOperationException();
     }
+
     @Override
     public void notifyGameWon() {
         this.removeAllTileEvents();
@@ -200,8 +208,8 @@ public class MinesweeperView implements IGameStateNotifier {
     }
 
     private void removeAllTileEvents() {
-        for (int i=0; i<this.tiles.length; ++i)
-            for (int j=0; j<this.tiles[i].length; ++j) 
+        for (int i = 0; i < this.tiles.length; ++i)
+            for (int j = 0; j < this.tiles[i].length; ++j)
                 this.tiles[i][j].removalAllMouseListeners();
     }
 
@@ -213,8 +221,8 @@ public class MinesweeperView implements IGameStateNotifier {
     @Override
     public void notifyTimeElapsedChanged(Duration newTimeElapsed) {
         timerView.setText(
-                    String.format("%d:%02d", newTimeElapsed.toMinutesPart(), newTimeElapsed.toSecondsPart()));  
-        
+                String.format("%d:%02d", newTimeElapsed.toMinutesPart(), newTimeElapsed.toSecondsPart()));
+
     }
 
     @Override

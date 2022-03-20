@@ -5,11 +5,13 @@ public class Tile extends AbstractTile {
     private boolean opened;
     private boolean flagged;
     private boolean mined;
+    private int explosiveCount;
 
     public Tile(boolean explosive){
         opened = false;
         flagged = false;
         mined = explosive;
+        explosiveCount = 0;
     }
 
     @Override
@@ -52,4 +54,12 @@ public class Tile extends AbstractTile {
     public boolean isOpened() {
         return opened;
     }
+
+    public void setExplosiveCount(int explosiveCount){
+        this.explosiveCount=explosiveCount;
+    }
+
+    public int getExplosiveCount(){
+        return explosiveCount;
+    };
 }
