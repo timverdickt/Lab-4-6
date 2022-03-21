@@ -168,7 +168,7 @@ public class MinesweeperView implements IGameStateNotifier {
                             if (gameModel != null) {
                                 if (!gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isExplosive()) {
                                         gameModel.open(temp.getPositionX(), temp.getPositionY());
-                                        notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
+                                        //notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
                                 } else {
                                     if (!gameModel.getFirstClick()) {
                                         gameModel.open(temp.getPositionX(), temp.getPositionY());
@@ -180,7 +180,7 @@ public class MinesweeperView implements IGameStateNotifier {
                                         gameModel.deactivateFirstTileRule();
                                         gameModel.click();
                                         gameModel.open(temp.getPositionX(), temp.getPositionY());
-                                        notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
+                                        //notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
                                     }
                                 }
                             }

@@ -139,9 +139,25 @@ public class Minesweeper extends AbstractMineSweeper {
     @Override
     public void open(int x, int y) {
         world[x][y].open();
-
+        this.viewNotifier.notifyOpened(x,y,world[x][y].getExplosiveCount());
+        if (world[x][y].getExplosiveCount() == 0) {
+            openAround(x, y);
+        }
     }
 
+    public void openAround(int x, int y) {
+        for (int i = x - 1; i == x + 1; i++) {
+            for (int j = y - 1; j == y + 1; j++) {
+                try {
+                    if (!world[i][j].isExplosive()) {
+                        open(i, j);
+                        this.viewNotifier.notifyOpened(i,j,world[i][j].getExplosiveCount());
+                    }
+                } catch(Exception e){
+                }
+            }
+        }
+    }
 
     @Override
     public void flag(int x, int y) {
