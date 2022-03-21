@@ -63,21 +63,21 @@ public class MinesweeperView implements IGameStateNotifier {
         this.easyGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.EASY);
-                notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
+            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
         this.mediumGame = new JMenuItem("Medium");
         this.gameMenu.add(this.mediumGame);
         this.mediumGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.MEDIUM);
-                notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
+            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
         this.hardGame = new JMenuItem("Hard");
         this.gameMenu.add(this.hardGame);
         this.hardGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.HARD);
-                notifyNewGame(gameModel.getHeight(), gameModel.getWidth());
+            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
 
         this.window.setJMenuBar(this.menuBar);
@@ -167,21 +167,12 @@ public class MinesweeperView implements IGameStateNotifier {
                         if (arg0.getButton() == MouseEvent.BUTTON1) {
                             if (gameModel != null) {
                                 if (!gameModel.getTile(temp.getPositionX(), temp.getPositionY()).isExplosive()) {
-                                        gameModel.open(temp.getPositionX(), temp.getPositionY());
-                                        notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
+                                    gameModel.open(temp.getPositionX(), temp.getPositionY());
+                                    notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
                                 } else {
-                                    if (!gameModel.getFirstClick()) {
-                                        gameModel.open(temp.getPositionX(), temp.getPositionY());
-                                        notifyExploded(temp.getPositionX(), temp.getPositionY());
-                                        //notifyGameLost();
-                                    }
-                                    else{
-                                        gameModel.getTile(temp.getPositionX(), temp.getPositionY()).setSafe();
-                                        gameModel.deactivateFirstTileRule();
-                                        gameModel.click();
-                                        gameModel.open(temp.getPositionX(), temp.getPositionY());
-                                        notifyOpened(temp.getPositionX(), temp.getPositionY(), gameModel.getTile(temp.getPositionX(), temp.getPositionY()).getExplosiveCount());
-                                    }
+                                    gameModel.open(temp.getPositionX(), temp.getPositionY());
+                                    notifyExploded(temp.getPositionX(), temp.getPositionY());
+                                    //notifyGameLost();
                                 }
                             }
                         } else if (arg0.getButton() == MouseEvent.BUTTON3) {
@@ -190,7 +181,7 @@ public class MinesweeperView implements IGameStateNotifier {
                                     gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
                                     notifyUnflagged(temp.getPositionX(), temp.getPositionY());
                                     notifyFlagCountChanged(gameModel.getFlags());
-                                } else if (gameModel.getFlags() != Integer.parseInt(minesOnMap.getText())) {
+                                } else if(gameModel.getFlags()!=Integer.parseInt(minesOnMap.getText())) {
                                     gameModel.toggleFlag(temp.getPositionX(), temp.getPositionY());
                                     notifyFlagged(temp.getPositionX(), temp.getPositionY());
                                     notifyFlagCountChanged(gameModel.getFlags());

@@ -40,10 +40,6 @@ public class Tile extends AbstractTile {
         flagged= !flagged;
     }
 
-    public void setSafe(){
-        mined = false;
-    }
-
     @Override
     public boolean isFlagged() {
         return flagged;

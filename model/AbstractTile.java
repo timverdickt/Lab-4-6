@@ -9,7 +9,6 @@ public abstract class AbstractTile implements TestableTile {
     public abstract void flag();
     public abstract void unflag();
     public abstract void toggledFlag();
-    public abstract void setSafe();
     public abstract boolean isFlagged();
     public abstract boolean isOpened();
     public abstract void setExplosiveCount(int explosiveCount);
