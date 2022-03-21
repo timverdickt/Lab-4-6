@@ -63,21 +63,21 @@ public class MinesweeperView implements IGameStateNotifier {
         this.easyGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.EASY);
-            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
+                notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
         this.mediumGame = new JMenuItem("Medium");
         this.gameMenu.add(this.mediumGame);
         this.mediumGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.MEDIUM);
-            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
+                notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
         });
         this.hardGame = new JMenuItem("Hard");
         this.gameMenu.add(this.hardGame);
         this.hardGame.addActionListener((ActionEvent e) -> {
             if (gameModel != null)
                 gameModel.startNewGame(Difficulty.HARD);
-            notifyNewGame(gameModel.getWidth(), gameModel.getHeight());
+                notifyNewGame(gameModel.getHeight(), gameModel.getWidth());
         });
 
         this.window.setJMenuBar(this.menuBar);

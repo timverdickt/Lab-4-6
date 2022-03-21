@@ -46,8 +46,8 @@ public class Minesweeper extends AbstractMineSweeper {
             mines = 40;
             flagsSet = 0;
         } else if (level == Difficulty.HARD) {
-            width = 16;
-            height = 30;
+            width = 30;
+            height = 16;
             mines = 99;
             flagsSet = 0;
         }
