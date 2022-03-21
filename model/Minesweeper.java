@@ -1,4 +1,5 @@
 package model;
+
 import java.util.Random;
 
 public class Minesweeper extends AbstractMineSweeper {
@@ -19,25 +20,23 @@ public class Minesweeper extends AbstractMineSweeper {
         return height;
     }
 
-    public int getMines(){
+    public int getMines() {
         return mines;
     }
 
     @Override
     public void startNewGame(Difficulty level) {
-        if (level == Difficulty.EASY){
+        if (level == Difficulty.EASY) {
             width = 8;
             height = 8;
             mines = 10;
             flagsSet = 0;
-        }
-        else if (level == Difficulty.MEDIUM){
+        } else if (level == Difficulty.MEDIUM) {
             width = 16;
             height = 16;
             mines = 40;
             flagsSet = 0;
-        }
-        else {
+        } else {
             width = 16;
             height = 30;
             mines = 99;
@@ -46,21 +45,21 @@ public class Minesweeper extends AbstractMineSweeper {
         generateWorld(height, width, mines);
     }
 
-    public void generateWorld(int height, int width, int mines){
+    public void generateWorld(int height, int width, int mines) {
         world = new AbstractTile[width][height];
         Random random = new Random();
         int minesPlaced = 0;
-        while(minesPlaced<mines) {
+        while (minesPlaced < mines) {
             int nextX = random.nextInt(width);
             int nextY = random.nextInt(height);
-            if(world[nextX][nextY] == null){
+            if (world[nextX][nextY] == null) {
                 world[nextX][nextY] = generateExplosiveTile();
                 minesPlaced++;
             }
         }
-        for (int i=0; i<width;i++){
-            for (int j=0;j< height;j++) {
-                if(world[i][j]==null){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (world[i][j] == null) {
                     world[i][j] = generateEmptyTile();
                 }
             }
@@ -68,21 +67,21 @@ public class Minesweeper extends AbstractMineSweeper {
         setNumbers();
     }
 
-    public void setNumbers(){
-        for (int i=0 ; i<width;i++) {
+    public void setNumbers() {
+        for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 int count = 0;
-                if(!world[i][j].isExplosive()){
-                    try {
-                        for (int k = i - 1; k <= i + 1; k++) {
-                            for (int l = j - 1; l <= j + 1; l++) {
+                if (!world[i][j].isExplosive()) {
+                    for (int k = i - 1; k <= i + 1; k++) {
+                        for (int l = j - 1; l <= j + 1; l++) {
+                            try {
                                 if (world[k][l].isExplosive()) {
                                     count++;
                                 }
+                            } catch (Exception e) {
+
                             }
                         }
-                    }
-                    catch(Exception e){
                     }
                 }
                 world[i][j].setExplosiveCount(count);
@@ -90,21 +89,21 @@ public class Minesweeper extends AbstractMineSweeper {
         }
     }
 
+
     @Override
     public void startNewGame(int row, int col, int explosionCount) {
         width = col;
         height = row;
         mines = explosionCount;
         flagsSet = 0;
-        generateWorld(height,width,mines);
+        generateWorld(height, width, mines);
     }
 
     @Override
     public void toggleFlag(int x, int y) {
-        if(world[x][y].isFlagged()){
+        if (world[x][y].isFlagged()) {
             flagsSet--;
-        }
-        else{
+        } else {
             flagsSet++;
         }
         world[x][y].toggledFlag();
@@ -118,7 +117,7 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public void setWorld(AbstractTile[][] world) {
-        this.world=world;
+        this.world = world;
 
     }
 
@@ -162,7 +161,7 @@ public class Minesweeper extends AbstractMineSweeper {
         return new Tile(true);
     }
 
-    public int getFlags(){
+    public int getFlags() {
         return flagsSet;
     }
 }
