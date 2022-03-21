@@ -9,7 +9,6 @@ public class Minesweeper extends AbstractMineSweeper {
     private int flagsSet;
 
 
-
     @Override
     public int getWidth() {
         return width;
@@ -126,6 +125,7 @@ public class Minesweeper extends AbstractMineSweeper {
     @Override
     public void open(int x, int y) {
         world[x][y].open();
+
     }
 
     @Override
@@ -140,7 +140,14 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public void deactivateFirstTileRule() {
-
+        for (int i=0;i<world.length;i++){
+            for (int j=0; j<world[i].length;j++){
+                if (!getTile(i,j).isExplosive()){
+                    world[i][j]=generateExplosiveTile();
+                }
+            }
+        }
+        setNumbers();
     }
 
     @Override

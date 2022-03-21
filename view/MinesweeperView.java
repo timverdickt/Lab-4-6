@@ -172,7 +172,7 @@ public class MinesweeperView implements IGameStateNotifier {
                                 } else {
                                     gameModel.open(temp.getPositionX(), temp.getPositionY());
                                     notifyExploded(temp.getPositionX(), temp.getPositionY());
-                                    notifyGameLost();
+                                    //notifyGameLost();
                                 }
                             }
                         } else if (arg0.getButton() == MouseEvent.BUTTON3) {
