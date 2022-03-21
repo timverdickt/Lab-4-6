@@ -9,7 +9,7 @@ public interface TestableMinesweeper extends PlayableMinesweeper {
     void open(int x, int y);
     void flag(int x, int y);
     void unflag(int x, int y);
-    void deactivateFirstTileRule();
+
     AbstractTile generateEmptyTile();
     AbstractTile generateExplosiveTile();
 }

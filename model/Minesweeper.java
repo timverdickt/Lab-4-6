@@ -8,6 +8,7 @@ public class Minesweeper extends AbstractMineSweeper {
     private int mines;
     private AbstractTile[][] world;
     private int flagsSet;
+    private boolean firstClick;
 
 
     @Override
@@ -18,6 +19,14 @@ public class Minesweeper extends AbstractMineSweeper {
     @Override
     public int getHeight() {
         return height;
+    }
+
+    public void click() {
+        firstClick = false;
+    }
+
+    public boolean getFirstClick() {
+        return firstClick;
     }
 
     public int getMines() {
@@ -36,12 +45,13 @@ public class Minesweeper extends AbstractMineSweeper {
             height = 16;
             mines = 40;
             flagsSet = 0;
-        } else {
+        } else if (level == Difficulty.HARD) {
             width = 16;
             height = 30;
             mines = 99;
             flagsSet = 0;
         }
+        firstClick = true;
         generateWorld(height, width, mines);
     }
 
@@ -65,6 +75,12 @@ public class Minesweeper extends AbstractMineSweeper {
             }
         }
         setNumbers();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                System.out.print(world[i][j].isExplosive());
+            }
+            System.out.println();
+        }
     }
 
     public void setNumbers() {
@@ -79,7 +95,6 @@ public class Minesweeper extends AbstractMineSweeper {
                                     count++;
                                 }
                             } catch (Exception e) {
-
                             }
                         }
                     }
@@ -96,6 +111,7 @@ public class Minesweeper extends AbstractMineSweeper {
         height = row;
         mines = explosionCount;
         flagsSet = 0;
+        firstClick = true;
         generateWorld(height, width, mines);
     }
 
@@ -106,7 +122,6 @@ public class Minesweeper extends AbstractMineSweeper {
         } else {
             flagsSet++;
         }
-        world[x][y].toggledFlag();
     }
 
     @Override
@@ -139,10 +154,12 @@ public class Minesweeper extends AbstractMineSweeper {
 
     @Override
     public void deactivateFirstTileRule() {
-        for (int i=0;i<world.length;i++){
-            for (int j=0; j<world[i].length;j++){
-                if (!getTile(i,j).isExplosive()){
-                    world[i][j]=generateExplosiveTile();
+        int count = 0;
+        for (int i = 0; i < world.length; i++) {
+            for (int j = 0; j < world[i].length; j++) {
+                if (!getTile(i, j).isExplosive() && count == 0) {
+                    world[i][j] = generateExplosiveTile();
+                    count++;
                 }
             }
         }
