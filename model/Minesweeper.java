@@ -142,6 +142,7 @@ public class Minesweeper extends AbstractMineSweeper {
 
     }
 
+
     @Override
     public void flag(int x, int y) {
         world[x][y].flag();
